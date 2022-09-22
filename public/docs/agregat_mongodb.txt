@@ -1,0 +1,36 @@
+varMatch = { $match : { "grades.0.grade":"C"} };
+varProject = { $project : {"name":1, "borough":1, "_id":0}};
+db.restaurants.aggregate( [ varMatch, varProject ] );
+
+varSort = { $sort : {"name":1} };//tri par ordre croissant, tri par dre décroisssant -1
+db.restaurants.aggregate( [ varMatch, varProject, varSort ] );
+
+varGroup = { $group : {"_id" : null, "total" : {$sum : 1} } };
+db.restaurants.aggregate( [ varMatch, varGroup ] );
+//sum de 1 equivaunt à compter le nombre d'éléments 
+//cette requête équivaut à 
+db.restaurants.find({"grades.0.grade":"C"}).count()
+
+//groupement par valeur
+varGroup3 = { $group : {"_id" : "$borough", "total" : {$sum : 1} } };
+db.restaurants.aggregate( [ varMatch, varGroup3 ] );
+
+{"_id" : "Bronx",        "total" : 27.0}
+{"_id" : "Staten Island",    "total" : 7.0}
+{"_id" : "Manhattan",        "total" : 83.0}
+{"_id" : "Brooklyn",        "total" : 56.0}
+{"_id" : "Queens",        "total" : 47.0}
+
+//rirer toutes les grades avec unwind puis grouper pa moyenne calculé via $avg et tri décroissante
+varUnwind = {$unwind : "$grades"}
+varGroup4 = { $group : {"_id" : "$borough", "moyenne" : {$avg : "$grades.score"} } };
+varSort2 = { $sort : { "moyenne" : -1 } }
+db.restaurants.aggregate( [ varUnwind, varGroup4, varSort2 ] );
+
+{ "_id" : "Queens", "moyenne" : 11.634865110930088 }
+{ "_id" : "Brooklyn", "moyenne" : 11.447723132969035 }
+{ "_id" : "Manhattan", "moyenne" : 11.41823125728344 }
+{ "_id" : "Staten Island", "moyenne" : 11.370957711442786 }
+{ "_id" : "Bronx", "moyenne" : 11.036186099942562 }
+{ "_id" : "Missing", "moyenne" : 9.632911392405063 }
+

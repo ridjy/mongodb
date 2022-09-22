@@ -1,0 +1,38 @@
+db.restaurants.update (
+   {"_id" : ObjectId("632c2931e6f32ecd6c206da8")},
+   {$set : {"comment" : "My new comment"}}
+);//ajouter une colonne
+
+db.restaurants.update (
+   {"_id" : ObjectId("594b9172c96c61e672dcd689")},
+   {$unset : {"comment" : 1}}
+);//supprimer une colonne
+
+db.restaurants.update (
+   {"grades.grade" : {$not : {$eq : "C"}}},
+   {$set : {"comment" : "acceptable"}},
+   {"multi" : true} // à enlever si modif que sur un seul resultat
+);//update avec requete 
+
+//javascript et sauvegarder le résultat
+db.restaurants.find( {"grades.grade" : {$not : {$eq : "C"}}} ).forEach( 
+    function(restaurant){
+        total = 0;
+        for(i=0 ; i<restaurant.grades.length ; i++){
+            if(restaurant.grades[i].grade == "A")         total += 3;
+            else if(restaurant.grades[i].grade == "B")    total += 1;
+            else                                          total -= 1;
+        }
+        restaurant.note = total;
+        db.restaurants.save(restaurant);
+    }
+);
+
+//delete multiple avec multi 
+db.restaurants.remove(
+   {"note":0},
+   {"multi" : true}
+);
+
+//insert ; si mm id donc ecrasement
+db.restaurants.save({"_id" : 1, "test" : 1});

@@ -1,0 +1,23 @@
+1 / docker-compose --version
+
+docker-compose up => lancer la creation d'un ensemble de conteneur (tous les conteneurs en arrière plan)
+docker run pour lancer un seul conteneur
+
+docker-compose down => arrête et detruit l'ensemble des ressources créés
+
+docker-compose config => valider le fichier docker_compose.yml
+
+2 / docker-compose.yml
+commence tjrs par la version 
+- version: "3.7"
+L'ensemble des conteneurs qui doivent être créés doivent être définis sous l'argument services
+- image qui nous permet de définir l'image Docker que nous souhaitons utiliser.
+
+volumes:
+      - db_data:/var/lib/mysql
+
+depends_on  , nous permet de créer une dépendance entre deux conteneurs. Ainsi, Docker démarrera le service db avant de démarrer le service WordPress.
+
+3 / docker-compose up -d
+execute un build si le conteneur n'est pas encore monté
+

@@ -1,0 +1,53 @@
+"a" : {"$gt" : 10} //greater than
+"a" : {"$lt" : 10} //less than
+"a" : {"$ne" : 10} //not equal
+"a" : {"$in" : [10, 12, 15, 18] } //in , nin pour not in
+"a" : {“$or” : [{"$gt" : 10}, {“$lt” : 5} ] } // > 10 ou < 5
+"a" : {“$and” : [{"$lt" : 10}, {“$gt” : 5} ] }
+“a" : {“$not” : {"$lt" : 10} }
+“a” : {“$exists” : 1} //La clé existe dans le document
+“a” : {“$size” : 5} //taille liste = 5 , uniquement par egalité 
+
+//exemple 
+db.getCollection('restaurants').find(
+    {"borough":"Manhattan",
+     "grades.score":{
+         $lt:10,
+         $not:{$gte:10}
+     }
+    },
+    {"name":1,"grades.score":1, "_id":0}) // score imbriqué dans grade < 10, et afficher nom et score pour le résultat
+
+db.restaurants.find({
+    "grades" : {
+           $elemMatch : {
+               "grade" : "C",
+               "score" : {$lt :40}
+           }
+    }
+  },
+  {"grades.grade" : 1,"grades.score" : 1}
+);
+//verifier sur chaque élement avec $elemMatch => un element grade C + score < 40
+
+db.restaurants.find({
+    "grades.0.grade":"C"
+  },
+  {"name":1, "borough":1, "_id":0}
+);// indice 0 pour indiquer qu'on cherche dans le 1er élement de la liste grade 
+
+
+db.restaurants.distinct("name"); liste de valeur distinctes
+db.restaurants.distinct("grades.grade");
+
+db.restaurants.aggregate( [
+    { $match : {
+        "grades.0.grade":"C"
+    }},
+    { $project : {
+        "name":1, "borough":1, "_id":0
+    }}
+] )
+//une ure façon d'écrire find avec les agrégats 
+
+

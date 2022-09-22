@@ -1,0 +1,5 @@
+mongod --replSet rs0 --port 27018 --dbpath /data/R0S1
+
+elle consiste à creer une serveur de replication, 
+il faut au moins en créer 2. 
+

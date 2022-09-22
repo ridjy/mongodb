@@ -1,0 +1,12 @@
+install elasticsearch 
+en telechargeant les fichiers 
+
+elasticsearc.bat pour lancer le serveur sous windows
+PS : ne marche que sur CMD windows
+
+si erreur memoire pour lancer elastic search, 
+creer un nouveau fichier dans D:\elasticsearch-8.4.1\config\jvm.options.d 
+et mettre les lignes suivantes 
+-Xms2g
+-Xmx2g
+cela veut dire 2go min et 2g max

@@ -1,0 +1,49 @@
+# mongodb
+
+une base de données MongoDb fonctionnel
+
+# installation mongoDb
+
+# une fois installé, executable ici
+
+C:\Program Files\MongoDB\Server\3.6
+
+# le répertoire des données
+
+D:\data\mongodb
+
+# lancement du serveur (mongodb 3.6) depuis le repertoire bin
+
+C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe --dbpath D:\data\mongodb
+
+# studio3T ou robot3T pour interface
+
+# import bdd existant
+
+C:\Program Files\MongoDB\Server\3.6\mongoimport.exe --db new_york --collection restaurants D:/import/restaurants.json
+
+#GUI studi 3T a besoin d'une authentification
+
+1 / Requêtes 
+db.test.findOne();
+db.test.find( { "nomo" : "Eddy" } ); //JSON result 
+db.test.find( { "nomo" : "Eddy" } ).count(); //1
+db.test.find(
+    { "nomo" : "Eddy",
+      "prenom" : "rija" }
+)// doit être identifié par la même clé 
+db.restaurants.find(
+    { "borough" : "Brooklyn",
+      "cuisine" : "Italian",
+      "address.street" : "5 Avenue" }//clé street imbriqué dans adresse 
+)
+"name" : /pizza/i => //regex /i insensible à la casse et contient le mot pizza
+
+db.getCollection('restaurants').find(
+    {"borough":"Brooklyn",
+     "cuisine":"Italian",
+     "name":/pizza/i,
+     "address.street" : "5 Avenue"},
+    {"name":1}
+)//2e paramètre le nom de la clé + valeur 1 ( 0 si ne pas afficher ) on ne garde que name dans le résultat
+

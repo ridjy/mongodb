@@ -1,0 +1,47 @@
+1 / install docker
+creer un compte sur docker hub
+
+2 / test 
+docker run hello-world 
+=> cherche le package en local si existe sinon lance le package directement. 
+
+test 2 
+docker run -d -p 8080:80 nginx
+=> pull de l'image nginx si existe pas puis lancement du conteneur 
+aller à l'adresse http://127.0.0.1:8080/ pour tester 
+
+docker exec -ti 3621937f5894e9e93072fc800f234a7e51f3ba6b30dc43821ca779b8c117f4d9 bash
+=> entrée dans le conteneur ; taper cd /usr/share/nginx/html pour y modifier index.html
+
+docker stop ID_RETOURNÉ_LORS_DU_DOCKER_RUN
+docker rm ID_RETOURNÉ_LORS_DU_DOCKER_RUN
+
+docker pull hello-world
+=> récupérer une image docker et la stocker
+
+docker ps
+docker images -a
+
+3 / creation fichier dockerfile
+FROM centos:7.7.1908
+1ere ligne pour l'image de base 
+ensuie 
+RUN  => pour éxecuter les commandes commme apt-get update
+ADD . /app/ => telecharger ou copier des dossiers dans l'image 
+WORKDIR /app => modifier le répertoire courant (un peu comme cd puis le repertoire)
+EXPOSE 2368 => port écouté 
+VOLUME /app/logs => répertoire partagé 
+
+CMD ... ou ENTRYPOINT => la commande à executer lors du démarrage
+
+4 / creer l'image docker 
+docker build -t ocr-docker-build .
+-t nommer l'image docker 
+. répertoire dans lequel se trouver le dockerfile 
+
+docker run -d -p 2368:2368 ocr-docker-build
+-d detacher ou plutot libérer la console pour pouvoir continuer à l'utiliser
+
+
+5 / Docker hub
+docker search nginx => chercher toutes les images nginx
