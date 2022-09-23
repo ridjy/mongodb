@@ -20,3 +20,12 @@ Please confirm that you would like to continue [y/N]y
 
 Password for the [elastic] user successfully reset.
 New value: fPu=3Jg3KI2MPfIDKtfM
+
+Desactiver les params SSL/TLS dans elasticsearch.yml si vous n'avez pas de certificat valide
+curl -XPUT -H "Content-Type: application/json" localhost:9200/_bulk -u elastic:fPu=3Jg3KI2MPfIDKtfM --data-binary "@movies_elastic.json"
+
+erreur Action/metadata line [1] contains an unknown parameter [_types]
+modif le json importé pour enlever _type car deprecated en 7 and removed on 8
+
+http://localhost:9200/movies/_search + authentification pour voir les données
+
